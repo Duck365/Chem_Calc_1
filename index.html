@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molar Mass Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen active">
+        <h1>Chemistry Calculator</h1>
+        <button id="open-calc-btn" class="primary-btn">Open Molar Mass Calculator</button>
+    </div>
+
+    <!-- Calculator Screen -->
+    <div id="calculator-page" class="screen">
+        <header>
+            <button id="back-btn" class="secondary-btn">← Back to Menu</button>
+            <h2>Molar Mass Calculator</h2>
+        </header>
+        
+        <main class="calculator-container">
+            <!-- Left Side: Input -->
+            <div class="input-section">
+                <label for="chem-input">Enter Formula or Element Name:</label>
+                <input type="text" id="chem-input" placeholder="e.g. NaOH, Cr_2(SO_4)_3, Silicon" autocomplete="off" spellcheck="false">
+                <div class="input-hint">Use "_" for subscripts (e.g., C_4H_9O_2). Press Enter to calculate.</div>
+            </div>
+
+            <!-- Right Side: Real-time Output -->
+            <div class="output-section">
+                <div id="output-content">
+                    <div class="placeholder-text">Type a formula and press enter to see the molar mass breakdown...</div>
+                    <!-- JavaScript will inject the results here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- We'll link the JS file here -->
+    <script src="script.js"></script>
+</body>
+</html>

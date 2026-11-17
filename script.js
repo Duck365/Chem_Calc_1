@@ -32,7 +32,6 @@ const elementsDB = {
     "Au": { name: "Gold", mass: 196.97, type: "metal" },
     "Hg": { name: "Mercury", mass: 200.59, type: "metal" },
     "Pb": { name: "Lead", mass: 207.2, type: "metal" }
-    // Note: You can easily add the rest of the 118 elements following this exact format!
 };
 
 // Known compounds dictionary for nice naming
@@ -42,7 +41,8 @@ const knownCompounds = {
     "H2O": "Water",
     "CO2": "Carbon Dioxide",
     "NaCl": "Sodium Chloride",
-    "C4H9O2": "Butyl Acetate Isomer" // Example fallback name
+    "C4H9O2": "Butyl Acetate Isomer",
+    "K2SO4": "Potassium Sulfate" 
 };
 
 // --- 2. SCREEN NAVIGATION ---
@@ -84,7 +84,7 @@ function processInput(input) {
         }
     }
 
-    // Step 2: Clean underscores for parser, but keep original for display if needed
+    // Step 2: Strip underscores just in case you accidentally type one
     const cleanFormula = formula.replace(/_/g, '');
     
     // Step 3: Parse formula to count elements
@@ -128,12 +128,12 @@ function processInput(input) {
         particleType = "Molecular Formula";
     }
 
-    // Determine the name (Look up in dict, or format the formula nicely)
+    // Look up in dict, or format the formula nicely
     let displayName = knownCompounds[cleanFormula] || elementsDB[cleanFormula]?.name;
     
     if (!displayName) {
-        // If not a known compound, just make the formula look pretty (H_2O -> H₂O)
-        displayName = formatFormulaHTML(input);
+        // If not a known compound, make the raw formula look pretty (C4H9O2 -> C₄H₉O₂)
+        displayName = formatFormulaHTML(cleanFormula);
     }
 
     // Step 6: Render HTML Output
@@ -195,20 +195,14 @@ function parseChemicalFormula(formula) {
                 currentObj[el] = (currentObj[el] || 0) + count;
                 i += match[0].length;
             } else {
-                // Invalid character, break out to prevent infinite loop
-                return null; 
+                return null; // Invalid character
             }
         }
     }
     return stack[0];
 }
 
-// Turns C_4H_9O_2 or C4H9O2 into nicely formatted HTML with <sub> tags
-function formatFormulaHTML(rawInput) {
-    // If the user used underscores, replace _NUMBER with <sub>NUMBER</sub>
-    if (rawInput.includes('_')) {
-        return rawInput.replace(/_(\d+)/g, '<sub>$1</sub>');
-    }
-    // Otherwise automatically convert numbers to subscripts
-    return rawInput.replace(/(\d+)/g, '<sub>$1</sub>');
-}s
+// Automatically wraps any numbers in <sub> tags so they display as subscripts
+function formatFormulaHTML(formulaStr) {
+    return formulaStr.replace(/(\d+)/g, '<sub>$1</sub>');
+}
